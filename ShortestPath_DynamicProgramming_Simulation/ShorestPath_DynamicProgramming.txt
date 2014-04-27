@@ -1,0 +1,34 @@
+//---------------------------------------------
+double leastCost( double [][] graph, int from, int to ) {
+
+  D = graph_edge_weights;
+  
+  path = new int[n][n]; // initialized to all -1's
+
+  for (k=0; k<n; k++) {
+    for (i=0; i<n; i++) {
+      for (j=0; j<n; j++) {
+        //     red      green     blue   in visualization
+        if ( D[i][k] + D[k][j] < D[i][j]) {
+          path[i][j] = k;
+          D[i][j] = D[i][k] + D[k][j];
+        }
+      }
+    }
+  }
+
+  print(from); printPath(path, from, to); print(to);
+
+  return graph[from][to];
+}
+
+//---------------------------------------------
+void printPath( int [][] path, int from, int to ) {
+
+  k = path[from][to];
+  if (k != 0) {
+    printPath( from, k );
+    System.out.println(" v" + k);
+    printPath( k, to );
+  }
+}

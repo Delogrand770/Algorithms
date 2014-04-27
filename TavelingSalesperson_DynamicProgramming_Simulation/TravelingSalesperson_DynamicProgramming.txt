@@ -1,0 +1,83 @@
+void dynamicProgramming_solution() {
+  // Create memory to hold all the solutions
+  int numberSubsets = 2^(NUMBER_GRAPH_NODES-1);
+  D = new double[NUMBER_GRAPH_NODES][numberSubsets];
+  P = new int[NUMBER_GRAPH_NODES][numberSubsets];
+  startNode = NUMBER_GRAPH_NODES-1;
+
+  // Set the initial costs for the simplest sub-problems.
+  // The cost for gettig directly to the starting node.
+  for (int i=0; i<startNode; i++) {
+    D[i][0] = W[i][startNode];
+    P[i][0] = startNode;
+  }
+
+  A = new bitSet(NUMBER_GRAPH_NODES-1);
+  for (int k=1; k<=NUMBER_GRAPH_NODES-2; k++) {
+    create_all_possible_subsets(A, k);
+  }
+
+  bitSet allNodesExceptStartNode 
+                = new bitSet(NUMBER_GRAPH_NODES-1);
+  allNodesExceptStartNode.universal();
+
+  bitSet allNodesExceptStartNodeAndVj 
+                = new bitSet(NUMBER_GRAPH_NODES-1);
+  allNodesExceptStartNodeAndVj.universal();
+
+  double minCost = Double.MAX_VALUE;
+  for (int j=0; j<startNode; j++) {
+
+    allNodesExceptStartNodeAndVj.remove(j);
+    //         RED               GREEN
+    cost = W[startNode][j] 
+             + D[j][allNodesExceptStartNodeAndVj.value()];
+    if (cost < minCost) {
+      D[startNode][allNodesExceptStartNode.value()] = cost;
+      P[startNode][allNodesExceptStartNode.value()] = j;
+    }
+    allNodesExceptStartNodeAndVj.add(j);
+  }
+
+  minCost = D[startNode][allNodesExceptStartNode.value()];
+
+  // Create the minimum path using the P array
+  minPath = createPath(allNodesExceptStartNode, startNode);
+}
+
+//---------------------------------------------
+void create_all_possible_subsets( A, k ) {
+  for (every possible subset of A (n-1 nodes)
+       taking k nodes at a time) {
+    calculateCostForSubset(A);
+  }
+}
+
+//---------------------------------------------
+void calculateCostForSubset(A) {
+
+  for (i=0; i<NUMBER_GRAPH_NODES-1; i++) {
+
+    if vi is not in subset A {
+
+      for (j=0; j<size of A; j++) {
+        
+        if vj is in A {
+          //     RED             GREEN
+          cost = W[i][j] + D[j][{A-vj}.value()];
+
+          if ( cost < minimumCost ) {
+            D[i][A.value()] = cost;
+            P[i][A.value()] = j;
+          }
+        }
+      }
+    }
+  }
+}
+
+//---------------------------------------------
+class bitset {
+  // A bitSet is a class that stores a set  
+  // by setting bits in a 32-bit integer
+}
